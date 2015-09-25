@@ -7,11 +7,11 @@ Gem::Specification.new do |spec|
   spec.name          = "symbolic_attribute"
   spec.version       = SymbolicAttribute::VERSION
   spec.authors       = ["itkin"]
-  spec.email         = ["nicolas.papon@webflows.fr"]
+  spec.email         = ["nicolas.papon@gmail.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{RoR ActiveRecord helper to deal with constants stored in db}
+  # spec.description   = %q{RoR ActiveRecord helper to deal with constants stored in db}
+  spec.homepage      = "https://github.com/itkin/symbolic_attribute"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
