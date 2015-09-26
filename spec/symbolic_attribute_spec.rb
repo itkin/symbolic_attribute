@@ -11,7 +11,7 @@ describe SymbolicAttribute do
     def read_attribute(attr)
       instance_variable_get :"@#{attr}"
     end
-    symbolic_attribute :role, :choices => [:buyer, :seller], :allow_nil => true
+    symbolic_attribute :role, :values => [:buyer, :seller], :allow_nil => true
   end
 
   let(:subject_class) { SubjectClass }
