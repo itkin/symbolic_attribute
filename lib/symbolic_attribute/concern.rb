@@ -16,9 +16,9 @@ module SymbolicAttribute
           val.to_sym unless val.blank?
         end
 
-
+        # Add a class method and validation if choices option is defined
         if opts.symbolize_keys!.key?(:choices)
-          class_attr_name= attr.to_s.pluralize
+          class_attr_name = attr.to_s.pluralize
           class_attribute class_attr_name, :instance_reader => false, :instance_writer => false
           send "#{class_attr_name}=", opts.delete(:choices).map(&:to_sym)
           validates attr, opts.merge(:inclusion => { :in => proc{|instance| instance.class.send(class_attr_name)} })
