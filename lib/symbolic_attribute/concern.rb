@@ -16,7 +16,7 @@ module SymbolicAttribute
         end
 
         if opts.symbolize_keys!.key?(:choices)
-          opts[:choices].symbolize_keys!
+          opts[:choices].map!(&:to_sym)
           metaclass = class << self; self; end
           metaclass.instance_eval do
             define_method :"available_#{attr.to_s.pluralize}" do
