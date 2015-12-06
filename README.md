@@ -32,11 +32,27 @@ Or install it yourself as:
 
 ```ruby
 
-class Participation
-  symoblic_attribute :role, 
+class Participation < ActiveRecord::Base
+  symbolic_attribute :role, 
     values: %i{buyer seller}, 
     allow_nil: true
 end
+
+#Outside ActiveRecord, we need to implement an attribute accessor and the read_attribute method used by ActiveModel::Validation 
+class Participation 
+  symbolic_attribute :role, 
+    values: %i{buyer seller}, 
+    allow_nil: true
+    
+    
+  attr_accessor :role
+
+  def read_attribute(attr)
+    instance_variable_get :"@#{attr}"
+  end
+    
+end
+
 
 Participation.roles
 > [:buyer, :seller]

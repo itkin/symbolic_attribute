@@ -4,13 +4,13 @@ require 'active_model'
 describe SymbolicAttribute do
 
   class SubjectClass
-    attr_accessor :role
-    include ActiveModel::Validations
     include SymbolicAttribute::Concern
 
+    attr_accessor :role
     def read_attribute(attr)
       instance_variable_get :"@#{attr}"
     end
+
     symbolic_attribute :role, :values => [:buyer, :seller], :allow_nil => true
   end
 
@@ -35,4 +35,14 @@ describe SymbolicAttribute do
       subject.role = "fuu"
     }.to change{subject.valid?}.from(true).to(false)
   end
+
+  it "subject class has human name name getter" do
+    expect(subject_class.human_role :buyer).to eq "Buyer"
+  end
+
+  it "subject has human name name getter" do
+    subject.role = :seller
+    expect(subject.human_role ).to eq "Seller"
+  end
+
 end
