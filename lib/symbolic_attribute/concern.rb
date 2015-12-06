@@ -23,22 +23,23 @@ module SymbolicAttribute
 
         # Add a class method and validation if :values option key is defined
         if opts.symbolize_keys!.key?(:values)
-          class_attr_name = attr.to_s.pluralize
-          class_attribute class_attr_name, :instance_reader => false, :instance_writer => false
-          send "#{class_attr_name}=", opts.delete(:values).map(&:to_sym)
-          validates attr, opts.merge(:inclusion => { :in => proc{|instance| instance.class.send(class_attr_name)} })
+          plural_attr = opts.delete(:plural) || attr.to_s.pluralize
+          class_attribute plural_attr, :instance_reader => false, :instance_writer => false
+          send "#{plural_attr}=", opts.delete(:values).map(&:to_sym)
+          validates attr, opts.merge(:inclusion => { :in => proc{|instance| instance.class.send(plural_attr)} })
 
           define_singleton_method "human_#{attr}" do |val, options={}|
             options   = { :count => 1 }.merge!(options)
 
             defaults = lookup_ancestors.map do |klass|
-              :"#{self.i18n_scope}.symbolic_attributes.#{klass.model_name.i18n_key}.#{attr}.#{val}"
+              :"#{self.i18n_scope}.symbolic_attributes.#{klass.model_name.i18n_key}.#{plural_attr}.#{val}"
             end
 
             defaults << options.delete(:default) if options[:default]
             defaults << val.to_s.humanize
 
             options[:default] = defaults
+
             I18n.translate(defaults.shift, options)
           end
 
